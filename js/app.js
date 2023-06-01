@@ -78,8 +78,8 @@ const toggleTable = () => {
 
 // Process ( Tasks )
 // service option loop
-services.forEach((service) =>
-  selectService.append(new Option(service.title, service.id))
+services.forEach(({title, id}) =>
+  selectService.append(new Option(title, id))
 );
 // data collect and create table
 invoiceForm.addEventListener("submit", (event) => {
@@ -96,8 +96,8 @@ invoiceForm.addEventListener("submit", (event) => {
   //   })
   // );
 
-  const selectedService = services.find((service) => {
-    return service.id == selectService.value;
+  const selectedService = services.find(({id}) => {
+    return id == selectService.value;
   }); // return object
   // console.log(selectedService);
 
