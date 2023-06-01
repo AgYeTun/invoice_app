@@ -1,4 +1,7 @@
 # invoice_app
-  #MMSIT-SWD
-  
+
+  # MMSIT-SWD
   mini-project-2
+
+  # Library
+  bootstrap, scss
