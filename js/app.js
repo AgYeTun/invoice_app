@@ -23,6 +23,7 @@ const services = [
 ];
 
 // Selectors
+const app = document.querySelector("#app");
 const invoiceForm = document.querySelector("#invoiceForm");
 const listTable = document.querySelector("#listTable");
 const selectService = document.querySelector("#selectService");
@@ -31,12 +32,26 @@ const lists = document.querySelector("#lists");
 const subTotal = document.querySelector("#subTotal");
 const tax = document.querySelector("#tax");
 const total = document.querySelector("#total");
+const addServiceOpenBtn = document.querySelector("#addServiceOpenBtn");
+const addServiceModal = document.querySelector("#addServiceModal");
+const closeServiceModalBtn = document.querySelector("#closeServiceModalBtn");
+const addServiceForm = document.querySelector("#addServiceForm");
+const sideBar = document.querySelector("#sideBar");
+const menu = document.querySelectorAll(".menu");
 
 // Functions
+
+// transition after page load
+const transitionAfterPageLoad = () => {
+  app.classList.remove("no-transition");
+};
+document.addEventListener("load", transitionAfterPageLoad())
+
+// create lists
 const createTr = (service, quantity) => {
   const tr = document.createElement("tr");
   tr.classList.add("list");
-  tr.setAttribute("service-id",service.id)
+  tr.setAttribute("service-id", service.id);
   const total = service.price * quantity;
   tr.innerHTML = `
               <td class=" d-flex justify-content-between">
@@ -68,19 +83,21 @@ const calTotal = () => {
 
 // table show/hide
 const toggleTable = () => {
-  if(lists.children.length){
-    listTable.classList.remove("d-none")
-  }else{
-    listTable.classList.add("d-none")
+  if (lists.children.length) {
+    listTable.classList.remove("d-none");
+  } else {
+    listTable.classList.add("d-none");
   }
-}
-
+};
 
 // Process ( Tasks )
 // service option loop
-services.forEach(({title, id}) =>
-  selectService.append(new Option(title, id))
+services.forEach(
+  ({ title, id }) => selectService.append(new Option(title, id))
 );
+
+
+
 // data collect and create table
 invoiceForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -96,42 +113,84 @@ invoiceForm.addEventListener("submit", (event) => {
   //   })
   // );
 
-  const selectedService = services.find(({id}) => {
+  const selectedService = services.find(({ id }) => {
     return id == selectService.value;
   }); // return object
   // console.log(selectedService);
 
-  // check dublicate
-  const isExistedService = [...lists.children].find(el => el.getAttribute("service-id") == selectedService.id)
+  // check duplicate
+  const isExistedService = [...lists.children].find(
+    (el) => el.getAttribute("service-id") == selectedService.id
+  );
 
-  if(isExistedService) {
+  if (isExistedService) {
     console.log(isExistedService);
-    const updateQuantity = isExistedService.querySelector(".list-quantity")
+    const updateQuantity = isExistedService.querySelector(".list-quantity");
     // update quantity
-    updateQuantity.innerText = parseFloat(updateQuantity.innerText) + quantity.valueAsNumber
+    updateQuantity.innerText =
+      parseFloat(updateQuantity.innerText) + quantity.valueAsNumber;
     // update total
-    isExistedService.querySelector(".list-total").innerText = updateQuantity.innerText * selectedService.price
-  }else {
+    isExistedService.querySelector(".list-total").innerText =
+      updateQuantity.innerText * selectedService.price;
+  } else {
     lists.append(createTr(selectedService, quantity.valueAsNumber));
-
   }
 
-
   calTotal();
-  toggleTable()
+  toggleTable();
 
   invoiceForm.reset(); // must be form element
 });
 
+// delete list
 app.addEventListener("click", (event) => {
   const currentElement = event.target;
-  if(currentElement.classList.contains("del-btn")){
+  if (currentElement.classList.contains("del-btn")) {
     // delete function here
-    currentElement.closest("tr").remove()
+    currentElement.closest("tr").remove();
 
-    calTotal()
-    toggleTable()
+    calTotal();
+    toggleTable();
   }
 
-  // console.dir(currentElement);
+  console.dir(currentElement);
+});
+
+// add new services
+// open modal
+addServiceOpenBtn.addEventListener("click", () => {
+  addServiceModal.classList.remove("d-none");
+});
+
+// close modal
+closeServiceModalBtn.addEventListener("click", () => {
+  addServiceModal.classList.add("d-none");
+});
+
+// submit form
+addServiceForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // get data from Form
+  const formData = new FormData(event.target);
+  // console.log(formData.get("serviceTitle"), formData.get("servicePrice"));
+
+  // add data to obj
+  const id = Date.now();
+  services.push({
+    id,
+    title: formData.get("serviceTitle"),
+    price: parseFloat(formData.get("servicePrice")),
+  });
+  // add to dom
+  selectService.append(new Option(formData.get("serviceTitle"), id));
+
+  event.target.reset();
+  addServiceModal.classList.add("d-none");
+});
+
+// menu show / hide
+menu.forEach((el) => {
+  el.addEventListener("click", () => {
+    sideBar.classList.toggle("active");
+  });
 });

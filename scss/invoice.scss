@@ -14,7 +14,33 @@ $component-active-bg: black;
   transition: 0.2s;
 }
 
-tr:hover .del-btn{
+// no transition when load => go to js
+.no-transition *{
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+tr:hover .del-btn {
   transform: scale(1);
   // scale: 1;
+}
+
+.bg-transparent-50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.side-bar {
+  transform: translateX(-100%);
+  transition: 0.5s;
+}
+
+.side-bar.active {
+  transform: translateX(0);
+}
+
+.menu:active {
+  transform: scale(0.8);
 }
