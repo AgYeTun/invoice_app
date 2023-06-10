@@ -33,11 +33,12 @@ const subTotal = document.querySelector("#subTotal");
 const tax = document.querySelector("#tax");
 const total = document.querySelector("#total");
 const addServiceOpenBtn = document.querySelector("#addServiceOpenBtn");
-const addServiceModal = document.querySelector("#addServiceModal");
+// const addServiceModal = document.querySelector("#addServiceModal");
 const closeServiceModalBtn = document.querySelector("#closeServiceModalBtn");
 const addServiceForm = document.querySelector("#addServiceForm");
 const sideBar = document.querySelector("#sideBar");
 const menu = document.querySelectorAll(".menu");
+const addServiceModal = new bootstrap.Modal("#addServiceModal");
 
 // Functions
 
@@ -45,7 +46,7 @@ const menu = document.querySelectorAll(".menu");
 const transitionAfterPageLoad = () => {
   app.classList.remove("no-transition");
 };
-document.addEventListener("load", transitionAfterPageLoad())
+document.addEventListener("load", transitionAfterPageLoad());
 
 // create lists
 const createTr = (service, quantity) => {
@@ -92,11 +93,9 @@ const toggleTable = () => {
 
 // Process ( Tasks )
 // service option loop
-services.forEach(
-  ({ title, id }) => selectService.append(new Option(title, id))
+services.forEach(({ title, id }) =>
+  selectService.append(new Option(title, id))
 );
-
-
 
 // data collect and create table
 invoiceForm.addEventListener("submit", (event) => {
@@ -158,13 +157,15 @@ app.addEventListener("click", (event) => {
 
 // add new services
 // open modal
-addServiceOpenBtn.addEventListener("click", () => {
-  addServiceModal.classList.remove("d-none");
+addServiceOpenBtn.addEventListener("mouseover", () => {
+  // addServiceModal.classList.remove("d-none");
+  addServiceModal.show();
 });
 
 // close modal
 closeServiceModalBtn.addEventListener("click", () => {
-  addServiceModal.classList.add("d-none");
+  // addServiceModal.classList.add("d-none");
+  addServiceModal.hide();
 });
 
 // submit form
@@ -185,7 +186,8 @@ addServiceForm.addEventListener("submit", (event) => {
   selectService.append(new Option(formData.get("serviceTitle"), id));
 
   event.target.reset();
-  addServiceModal.classList.add("d-none");
+  // addServiceModal.classList.add("d-none");
+  addServiceModal.hide();
 });
 
 // menu show / hide
