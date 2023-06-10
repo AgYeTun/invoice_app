@@ -8,22 +8,22 @@ $component-active-bg: black;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-.del-btn {
+.dropdown-icon {
   transform: scale(0);
   // scale: 0;
   transition: 0.2s;
 }
 
 // no transition when load => go to js
-.no-transition *{
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
-  transition: none !important;
-}
+// .no-transition *{
+//   -webkit-transition: none !important;
+//   -moz-transition: none !important;
+//   -ms-transition: none !important;
+//   -o-transition: none !important;
+//   transition: none !important;
+// }
 
-tr:hover .del-btn {
+tr:hover .dropdown-icon {
   transform: scale(1);
   // scale: 1;
 }
@@ -44,3 +44,4 @@ tr:hover .del-btn {
 .menu:active {
   transform: scale(0.8);
 }
+

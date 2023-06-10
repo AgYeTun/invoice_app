@@ -36,17 +36,17 @@ const addServiceOpenBtn = document.querySelector("#addServiceOpenBtn");
 // const addServiceModal = document.querySelector("#addServiceModal");
 const closeServiceModalBtn = document.querySelector("#closeServiceModalBtn");
 const addServiceForm = document.querySelector("#addServiceForm");
-const sideBar = document.querySelector("#sideBar");
+// const sideBar = document.querySelector("#sideBar");
 const menu = document.querySelectorAll(".menu");
 const addServiceModal = new bootstrap.Modal("#addServiceModal");
 
 // Functions
 
-// transition after page load
-const transitionAfterPageLoad = () => {
-  app.classList.remove("no-transition");
-};
-document.addEventListener("load", transitionAfterPageLoad());
+// transition after page load  --note--  initially I used class="no-transition" in #app to not display animation when reload page
+// const transitionAfterPageLoad = () => {
+//   app.classList.remove("no-transition");
+// };
+// document.addEventListener("load", transitionAfterPageLoad());
 
 // create lists
 const createTr = (service, quantity) => {
@@ -57,7 +57,13 @@ const createTr = (service, quantity) => {
   tr.innerHTML = `
               <td class=" d-flex justify-content-between">
                 ${service.title}
-                <i class=" bi bi-trash3 del-btn text-danger"></i>
+              <div class="dropdown">
+                <i class="bi bi-three-dots-vertical dropdown-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                </i>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item del-btn" href="#">Delete</a></li>
+                </ul>
+              </div>
               </td>
               <td class=" text-end list-quantity">${quantity}</td>
               <td class=" text-end">${service.price}</td>
@@ -157,7 +163,7 @@ app.addEventListener("click", (event) => {
 
 // add new services
 // open modal
-addServiceOpenBtn.addEventListener("mouseover", () => {
+addServiceOpenBtn.addEventListener("click", () => {
   // addServiceModal.classList.remove("d-none");
   addServiceModal.show();
 });
@@ -191,8 +197,8 @@ addServiceForm.addEventListener("submit", (event) => {
 });
 
 // menu show / hide
-menu.forEach((el) => {
-  el.addEventListener("click", () => {
-    sideBar.classList.toggle("active");
-  });
-});
+// menu.forEach((el) => {
+//   el.addEventListener("click", () => {
+//     sideBar.classList.toggle("active");
+//   });
+// });
